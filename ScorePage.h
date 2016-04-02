@@ -17,6 +17,7 @@ public:
 	bool removeNote(md::noteline, uint32_t);
 	uint32_t getNoteTime(uint32_t pageheight, uint32_t pagey); //upside is 0, bottomside is max
 	uint32_t getNoteTimePixel(uint32_t pageheight, uint32_t pagey);
+	uint32_t getNoteLinePixel(uint32_t pagewidth, uint32_t pagex);
 	md::noteline getNoteLine(uint32_t pagewidth, uint32_t pagex);
 
 	md::note getNote(uint32_t, md::noteline);

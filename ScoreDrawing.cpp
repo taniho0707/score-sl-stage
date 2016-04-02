@@ -3,7 +3,8 @@
 ScoreDrawing::ScoreDrawing(QQuickItem *parent)
 	: QQuickPaintedItem(parent),
 	  m_width(300),
-	  m_height(500)
+	  m_height(500),
+	  page(100, 4, 0)
 {
 	
 }
@@ -16,6 +17,12 @@ void ScoreDrawing::setColor(const QString &color){
 	
 }
 
+void ScoreDrawing::setMouse(const qreal x, const qreal y){
+	m_mousex = static_cast<uint32_t>(x);
+	m_mousey = static_cast<uint32_t>(y);
+}
+
+
 bool ScoreDrawing::setNote(const int16_t mousex, const int16_t mousey, const md::notetype type){
 	
 }
@@ -25,7 +32,13 @@ bool ScoreDrawing::removeNote(const int16_t mousex, const int16_t mousey){
 }
 
 void ScoreDrawing::drawGrayIcon(QPainter *painter){
-	
+	QRect target(
+		page.getNoteLinePixel(m_width*4/6, m_mousex)-14,
+		page.getNoteTimePixel(m_height*8/10, m_mousey)-14,
+		28, 28);
+	QRect source(0, 0, 28, 28);
+	QImage image("./img/note1_gray.png");
+	painter->drawImage(target, image, source);
 }
 
 void ScoreDrawing::drawGrid(QPainter *painter){
@@ -49,6 +62,8 @@ void ScoreDrawing::drawGrid(QPainter *painter){
 // called as update()
 void ScoreDrawing::paint(QPainter *painter){
 	drawGrid(painter);
+	drawGrayIcon(painter);
+
     // QFont font = QFont();
     // QPen pen(m_color, 3);
     // QRect rect(0, 0, 100, 100);

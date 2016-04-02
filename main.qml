@@ -153,7 +153,11 @@ ApplicationWindow{
             width: 300
             height: 500
             hoverEnabled: true
-            onPositionChanged: label_test.text = mouseX;
+            onPositionChanged: {
+                label_test.text = mouseX;
+                score_drawing.setMouse(mouseX, mouseY);
+                score_drawing.update();
+            }
             onClicked: score_drawing.update();
         }
         ScoreDrawing {
