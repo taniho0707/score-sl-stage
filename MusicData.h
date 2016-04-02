@@ -24,12 +24,13 @@ namespace md{
 		MIDDLE,
 		RIGHTMIDDLE,
 		RIGHT,
-	}
+		NONE = 255,
+	};
 
 	enum class notehand : uint8_t {
 		LEFT,
 		RIGHT,
-	}
+	};
 
 	/* ノーツデータ
 	   1. ノーツタイプ
@@ -52,7 +53,7 @@ namespace md{
 		unsigned next : 10;
 		unsigned hand : 1;
 		unsigned line : 3;
-		unsigned : 28
+		unsigned : 28;
 	} __attribute__ ((__packed__));
 
 	class MusicData {
