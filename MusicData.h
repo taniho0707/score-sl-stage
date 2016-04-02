@@ -7,11 +7,14 @@ namespace md{
 
 	enum class notetype : unsigned char {
 		SINGLE,
-		LONGSTART,
-		LONGEND,
-		SLIDESTART,
-		SLIDECONT,
-		SLIDEEND,
+		LONG_START,
+		LONG_END,
+		SLIDERIGHT_START,
+		SLIDERIGHT_CONT,
+		SLIDERIGHT_END,
+		SLIDELEFT_START,
+		SLIDELEFT_CONT,
+		SLIDELEFT_END,
 		ERROR = 255
 	};
 
