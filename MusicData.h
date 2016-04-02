@@ -15,7 +15,7 @@ namespace md{
 		SLIDELEFT_START,
 		SLIDELEFT_CONT,
 		SLIDELEFT_END,
-		ERROR = 255
+		ERROR = 15
 	};
 
 	enum class noteline : uint8_t {
@@ -24,12 +24,13 @@ namespace md{
 		MIDDLE,
 		RIGHTMIDDLE,
 		RIGHT,
-		NONE = 255,
+		NONE = 7
 	};
 
 	enum class notehand : uint8_t {
 		LEFT,
 		RIGHT,
+		ERROR = 3
 	};
 
 	/* ノーツデータ
@@ -51,7 +52,7 @@ namespace md{
 		unsigned type : 4;
 		unsigned time : 18;
 		unsigned next : 10;
-		unsigned hand : 1;
+		unsigned hand : 2;
 		unsigned line : 3;
 		unsigned : 28;
 	} __attribute__ ((__packed__));
