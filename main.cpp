@@ -6,11 +6,14 @@
 #include <QTextCodec>
 #include <QQuickView>
 
+#include "ScoreDrawing.h"
+
 int main(int argc, char **argv){
     QApplication app(argc, argv);
     QTextCodec::setCodecForLocale(QTextCodec::codecForLocale());
 
-    QQmlApplicationEngine engine("main.qml");
+	qmlRegisterType<ScoreDrawing>("ScoreDrawing", 1, 0, "ScoreDrawing");
+	QQmlApplicationEngine engine("main.qml");
     
     return app.exec();
 }

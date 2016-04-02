@@ -8,4 +8,5 @@ INCLUDEPATH += .
 QT += qml quick widgets gui
 
 # Input
-SOURCES += main.cpp
+SOURCES += main.cpp ScoreDrawing.cpp
+HEADERS += ScoreDrawing.h

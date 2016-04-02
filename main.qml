@@ -2,6 +2,7 @@
 
 import QtQuick 2.0
 import QtQuick.Controls 1.0
+import ScoreDrawing 1.0
 
 ApplicationWindow{
     id: applicationWindow1
@@ -17,7 +18,7 @@ ApplicationWindow{
         id: rec_file
         x: 0
         width: 140
-        color: "#FFFFFF"
+        color: "white"
         
         Button {
             id: button_new
@@ -134,4 +135,42 @@ ApplicationWindow{
             onClicked: label_page_current.text = 1 + parseInt(label_page_current.text);
         }
     }
+
+    Rectangle {
+        id: rec_score
+        x: 250
+        y: 50
+        width: 300
+        height: 500
+        color: "white"
+        border.color: "black"
+        border.width: 2
+
+        MouseArea {
+            id: mouse_score
+            x: 0
+            y: 0
+            width: 300
+            height: 500
+            hoverEnabled: true
+            onPositionChanged: label_test.text = mouseX;
+            onClicked: score_drawing.update();
+        }
+        ScoreDrawing {
+            id: score_drawing
+            x: 0
+            y: 0
+            width: 300
+            height: 500
+            
+        }
+        Label {
+            id: label_test
+            x: 60
+            y: 60
+            width: 100
+            height: 100
+            text: "Hello"
+        }
+   }
 }
