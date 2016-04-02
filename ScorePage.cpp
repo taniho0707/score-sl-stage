@@ -38,6 +38,10 @@ bool ScorePage::removeNote(md::noteline line, uint32_t time){
 	return false;
 }
 
+uint32_t ScorePage::getNoteTimePixel(uint32_t pageheight, uint32_t pagey){
+	return ((pagey+pageheight)/(2*divider))/(pageheight/divider));
+}
+
 uint32_t ScorePage::getNoteTime(uint32_t pageheight, uint32_t pagey){
 	uint16_t length = bpm/measure;
 	uint32_t pixel = static_cast<uint32_t>(

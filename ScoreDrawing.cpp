@@ -24,6 +24,10 @@ bool ScoreDrawing::removeNote(const int16_t mousex, const int16_t mousey){
 	
 }
 
+void ScoreDrawing::drawGrayIcon(QPainter *painter){
+	
+}
+
 void ScoreDrawing::drawGrid(QPainter *painter){
     QPen pen(QColor("black"));
 	QRect rect(0, 0, 1, m_height);

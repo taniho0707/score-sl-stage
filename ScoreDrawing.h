@@ -21,6 +21,8 @@ public:
 	Q_INVOKABLE bool setNote(const int16_t mousex, const int16_t mousey, const md::notetype type);
 	Q_INVOKABLE bool removeNote(const int16_t mousex, const int16_t mousey);
 
+	void drawGrayIcon(QPainter *painter);
+
 	void drawGrid(QPainter *painter);
     void paint(QPainter *painter);
 
