@@ -18,6 +18,19 @@ namespace md{
 		ERROR = 255
 	};
 
+	enum class noteline : uint8_t {
+		LEFT,
+		LEFTMIDDLE,
+		MIDDLE,
+		RIGHTMIDDLE,
+		RIGHT,
+	}
+
+	enum class notehand : uint8_t {
+		LEFT,
+		RIGHT,
+	}
+
 	/* ノーツデータ
 	   1. ノーツタイプ
 	      4bit
@@ -27,25 +40,30 @@ namespace md{
 	      in ms
 	   3. 次のノーツ番号
 	      10bit
+	   4. 演奏腕
+	      1bit
+		  右，左
+	   5. ノーツライン
+	      3bit
 	*/
-	union note {
-		struct {
-			unsigned type : 4;
-			unsigned time : 18;
-			unsigned next : 10;
-		} part;
-		uint32_t all;
+	struct note {
+		unsigned type : 4;
+		unsigned time : 18;
+		unsigned next : 10;
+		unsigned hand : 1;
+		unsigned line : 3;
+		unsigned : 28
 	} __attribute__ ((__packed__));
 
 	class MusicData {
 	private:
-		std::vector<union note> data;
+		std::vector<struct note> data;
 		
 	public:
 		MusicData();
 
-		bool setNote(uint16_t, uint32_t);
-		uint16_t setNotes(uint16_t, uint32_t*, uint16_t);
+		bool setNote(uint16_t, struct note);
+		uint16_t setNotes(uint16_t, struct note*, uint16_t);
 
 		notetype getType(uint16_t);
 		uint32_t getTime(uint16_t);

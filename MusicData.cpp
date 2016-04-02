@@ -10,13 +10,13 @@ md::MusicData::~MusicData(){
 	
 }
 
-bool md::MusicData::setNote(uint16_t num, uint32_t d){
+bool md::MusicData::setNote(uint16_t num, struct note d){
 	if(data.size() < num) return false;
-	data.at(num).all = d;
+	data.at(num) = d;
 	return true;
 }
 
-uint16_t md::MusicData::setNotes(uint16_t start, uint32_t* d, uint16_t length){
+uint16_t md::MusicData::setNotes(uint16_t start, struct note* d, uint16_t length){
 	data.resize(start+length);
 	for(auto i = 0; i < length; ++i)
 		setNote(start+i, d[i]);
