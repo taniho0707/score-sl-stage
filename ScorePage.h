@@ -12,6 +12,8 @@ public:
 	~ScorePage();
 
 	void setDivide(uint16_t);
+
+	void setAll(uint16_t, uint16_t, uint16_t);
 	
 	bool setNote(md::noteline, md::notetype, md::notehand, uint32_t);
 	bool removeNote(md::noteline, uint32_t);
@@ -19,8 +21,10 @@ public:
 	uint32_t getNoteTimePixel(uint32_t pageheight, uint32_t pagey);
 	uint32_t getNoteLinePixel(uint32_t pagewidth, uint32_t pagex);
 	md::noteline getNoteLine(uint32_t pagewidth, uint32_t pagex);
+	std::pair<uint16_t, uint16_t> getNotePixels(uint32_t time, md::noteline line, uint32_t pageheight, uint32_t pagewidth);
 
 	md::note getNote(uint32_t, md::noteline);
+	std::multimap<uint32_t, md::note> getAllNotes();
 
 private:
 	uint16_t bpm;

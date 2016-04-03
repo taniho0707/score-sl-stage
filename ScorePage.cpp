@@ -15,6 +15,13 @@ void ScorePage::setDivide(uint16_t d){
 	divider = d;
 }
 
+void ScorePage::setAll(uint16_t m_bpm, uint16_t m_measure, uint16_t m_biastime){
+	bpm = m_bpm;
+	measure = m_measure;
+	biastime = m_biastime;
+	divider = measure;
+}
+
 bool ScorePage::setNote(md::noteline line, md::notetype type, md::notehand hand, uint32_t time){
 	md::note tmpnote = {
 		static_cast<unsigned>(type),
@@ -58,6 +65,14 @@ md::noteline ScorePage::getNoteLine(uint32_t pagewidth, uint32_t pagex){
 	return static_cast<md::noteline>(((pagex+pagewidth)/8)/(pagewidth/4));
 }
 
+std::pair<uint16_t, uint16_t> ScorePage::getNotePixels(uint32_t time, md::noteline line, uint32_t pageheight, uint32_t pagewidth){
+	std::pair<uint16_t, uint16_t> tmp(
+		(static_cast<uint16_t>(line)*pagewidth/4),
+		(time*pageheight*measure/bpm)
+		);
+	return tmp;
+}
+
 md::note ScorePage::getNote(uint32_t time, md::noteline line){
 	md::note no = {
 		static_cast<unsigned>(md::notetype::ERROR),
@@ -74,4 +89,8 @@ md::note ScorePage::getNote(uint32_t time, md::noteline line){
 		}
 	}
 	return no;
+}
+
+std::multimap<uint32_t, md::note> ScorePage::getAllNotes(){
+	return notes;
 }

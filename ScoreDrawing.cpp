@@ -6,7 +6,11 @@ ScoreDrawing::ScoreDrawing(QQuickItem *parent)
 	  m_height(500),
 	  page(100, 4, 0)
 {
-	
+	pages.reserve(100);
+	for(auto itr = pages.begin(); itr != pages.end(); ++itr) {
+		(*itr).setAll(100, 4, 0);
+	}
+	currentpage = pages.begin();
 }
 
 void ScoreDrawing::setNum(const int &num){
@@ -23,8 +27,15 @@ void ScoreDrawing::setMouse(const qreal x, const qreal y){
 }
 
 
-bool ScoreDrawing::setNote(const int16_t mousex, const int16_t mousey, const md::notetype type){
-	
+bool ScoreDrawing::setNote(const int16_t mousex, const int16_t mousey, const int type, const int hand){
+	md::notetype mdtype = static_cast<md::notetype>(type);
+	md::notehand mdhand = static_cast<md::notehand>(hand);
+	(*currentpage).setNote(
+		(*currentpage).getNoteLine(m_width*4/6, mousex),
+		mdtype,
+		mdhand,
+		(*currentpage).getNoteTime(m_height*8/10, mousey)
+		);
 }
 
 bool ScoreDrawing::removeNote(const int16_t mousex, const int16_t mousey){
@@ -33,13 +44,34 @@ bool ScoreDrawing::removeNote(const int16_t mousex, const int16_t mousey){
 
 void ScoreDrawing::drawGrayIcon(QPainter *painter){
 	QRect target(
-		page.getNoteLinePixel(m_width*4/6, m_mousex)-14,
-		page.getNoteTimePixel(m_height*8/10, m_mousey)-14,
+		(*currentpage).getNoteLinePixel(m_width*4/6, m_mousex)-14,
+		(*currentpage).getNoteTimePixel(m_height*8/10, m_mousey)-14,
 		28, 28);
 	QRect source(0, 0, 28, 28);
 	QImage image("./img/note1_gray.png");
 	painter->drawImage(target, image, source);
 }
+
+void ScoreDrawing::drawIcon(QPainter *painter){
+	QRect target(
+		(*currentpage).getNoteLinePixel(m_width*4/6, m_mousex)-14,
+		(*currentpage).getNoteTimePixel(m_height*8/10, m_mousey)-14,
+		28, 28);
+	QRect source(0, 0, 28, 28);
+	QImage image("./img/note1.png");
+	painter->drawImage(target, image, source);
+}
+
+void ScoreDrawing::drawAllIcon(QPainter *painter){
+	QRect target(
+		(*currentpage).getNoteLinePixel(m_width*4/6, m_mousex)-14,
+		(*currentpage).getNoteTimePixel(m_height*8/10, m_mousey)-14,
+		28, 28);
+	QRect source(0, 0, 28, 28);
+	QImage image("./img/note1.png");
+	painter->drawImage(target, image, source);
+}
+
 
 void ScoreDrawing::drawGrid(QPainter *painter){
     QPen pen(QColor("black"));
@@ -63,6 +95,8 @@ void ScoreDrawing::drawGrid(QPainter *painter){
 void ScoreDrawing::paint(QPainter *painter){
 	drawGrid(painter);
 	drawGrayIcon(painter);
+
+	// drawAllIcon(painter);
 
     // QFont font = QFont();
     // QPen pen(m_color, 3);

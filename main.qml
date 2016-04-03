@@ -4,6 +4,7 @@ import QtQuick 2.0
 import QtQuick.Controls 1.0
 import ScoreDrawing 1.0
 
+
 ApplicationWindow{
     id: applicationWindow1
     width: 800
@@ -13,6 +14,7 @@ ApplicationWindow{
     color: "white"
     title: qsTr("Score Making Tool for IM@S Starlight Stage")
     visible: true
+    property int currentnote: 0
 
     Rectangle {
         id: rec_file
@@ -71,40 +73,74 @@ ApplicationWindow{
 
         ExclusiveGroup { id: notesGroup }
         RadioButton {
-            x: 80; y: 330
+            x: 80; y: 230
             text: "Single"
             checked: true
             exclusiveGroup: notesGroup
+            onClicked: currentnote = 0;
         }
         RadioButton {
-            x: 80; y: 360
-            text: "Long"
+            x: 80; y: 260
+            text: "Long Start"
             exclusiveGroup: notesGroup
+            onClicked: currentnote = 1;
         }
         RadioButton {
-            x: 80; y: 390
-            text: "LeftFlick"
+            x: 80; y: 290
+            text: "Long End"
             exclusiveGroup: notesGroup
+            onClicked: currentnote = 2;
         }
         RadioButton {
-            x: 80; y: 420
-            text: "RightFlick"
+            x: 80; y: 320
+            text: "LeftFlick Start"
             exclusiveGroup: notesGroup
+            onClicked: currentnote = 6;
+        }
+        RadioButton {
+            x: 80; y: 350
+            text: "LeftFlick Continue"
+            exclusiveGroup: notesGroup
+            onClicked: currentnote = 7;
+        }
+        RadioButton {
+            x: 80; y: 380
+            text: "LeftFlick End"
+            exclusiveGroup: notesGroup
+            onClicked: currentnote = 8;
+        }
+        RadioButton {
+            x: 80; y: 410
+            text: "RightFlick Start"
+            exclusiveGroup: notesGroup
+            onClicked: currentnote = 3;
+        }
+        RadioButton {
+            x: 80; y: 440
+            text: "RightFlick Continue"
+            exclusiveGroup: notesGroup
+            onClicked: currentnote = 4;
+        }
+        RadioButton {
+            x: 80; y: 470
+            text: "RightFlick End"
+            exclusiveGroup: notesGroup
+            onClicked: currentnote = 5;
         }
         Image {
-            x: 30; y: 330
+            x: 30; y: 230
             source: "img/note1.png"
         }
         Image {
-            x: 30; y: 360
+            x: 30; y: 260
             source: "img/note2.png"
         }
         Image {
-            x: 30; y: 390
+            x: 30; y: 320
             source: "img/note3.png"
         }
         Image {
-            x: 30; y: 420
+            x: 30; y: 410
             source: "img/note4.png"
         }
 
@@ -153,12 +189,23 @@ ApplicationWindow{
             width: 300
             height: 500
             hoverEnabled: true
+            acceptedButtons: Qt.LeftButton | Qt.RightButton
             onPositionChanged: {
-                label_test.text = mouseX;
                 score_drawing.setMouse(mouseX, mouseY);
                 score_drawing.update();
             }
-            onClicked: score_drawing.update();
+            onClicked: {
+                score_drawing.setMouse(mouseX, mouseY);
+                switch(pressedButtons){
+                case Qt.LeftButton:
+                    score_drawing.setNote(mouseX, mouseY, currentnote);
+                    break;
+                case Qt.RightButton:
+                    score_drawing.removeNote();
+                    break;
+                }
+                score_drawing.update();
+            }
         }
         ScoreDrawing {
             id: score_drawing
@@ -168,13 +215,5 @@ ApplicationWindow{
             height: 500
             
         }
-        Label {
-            id: label_test
-            x: 60
-            y: 60
-            width: 100
-            height: 100
-            text: "Hello"
-        }
-   }
+    }
 }
