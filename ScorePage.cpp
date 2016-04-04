@@ -1,6 +1,6 @@
 #include "ScorePage.h"
 
-ScorePage::ScorePage(uint16_t m_bpm, uint16_t m_measure, uint16_t m_biastime){
+ScorePage::ScorePage(uint16_t m_bpm=100, uint16_t m_measure=4, uint16_t m_biastime=0){
 	bpm = m_bpm;
 	measure = m_measure;
 	biastime = m_biastime;
@@ -47,11 +47,17 @@ bool ScorePage::removeNote(md::noteline line, uint32_t time){
 }
 
 uint32_t ScorePage::getNoteTimePixel(uint32_t pageheight, uint32_t pagey){
+	// @TODO
+	setDivide(4);
+	
 	pagey -= (pageheight/(2*divider));
 	return static_cast<uint32_t>((pagey+(pageheight/(2*divider)))/(pageheight/divider))*(pageheight/divider) + (pageheight/(2*divider));
 }
 
 uint32_t ScorePage::getNoteTime(uint32_t pageheight, uint32_t pagey){
+	// @TODO
+	setDivide(4);
+	
 	uint16_t length = bpm/measure;
 	uint32_t pixel = static_cast<uint32_t>((pagey+(pageheight/(2*divider)))/(pageheight/divider))*(pageheight/divider);
 	return length*pixel/pageheight;
