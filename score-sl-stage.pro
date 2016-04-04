@@ -6,6 +6,7 @@ TEMPLATE = app
 TARGET = score-sl-stage
 INCLUDEPATH += .
 QT += qml quick widgets gui
+QMAKE_CXXFLAGS += -g -O0
 
 # Input
 SOURCES += main.cpp ScoreDrawing.cpp ScorePage.cpp

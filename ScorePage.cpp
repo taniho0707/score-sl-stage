@@ -73,7 +73,7 @@ md::noteline ScorePage::getNoteLine(uint32_t pagewidth, uint32_t pagex){
 
 std::pair<uint16_t, uint16_t> ScorePage::getNotePixels(uint32_t time, md::noteline line, uint32_t pageheight, uint32_t pagewidth){
 	std::pair<uint16_t, uint16_t> tmp(
-		(static_cast<uint16_t>(line)*pagewidth/4),
+		(static_cast<uint16_t>(line)*(pagewidth/4)),
 		(time*pageheight*measure/bpm)
 		);
 	return tmp;

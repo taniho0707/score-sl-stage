@@ -15,6 +15,7 @@ ApplicationWindow{
     title: qsTr("Score Making Tool for IM@S Starlight Stage")
     visible: true
     property int currentnote: 0
+    property int currenthand: 0
 
     Rectangle {
         id: rec_file
@@ -54,21 +55,27 @@ ApplicationWindow{
             x: 90; y: 180
             id: label_hand_current
             font.pixelSize: 18
-            text: qsTr("")
+            text: qsTr("Left")
         }
         Button {
             id: button_lefttouch
             x:30; y:200
             width: 60
             text: "Left"
-            onClicked: label_hand_current.text="Left";
+            onClicked: {
+                currenthand = 0;
+                label_hand_current.text="Left";
+            }
         }
         Button {
             id: button_righttouch
             x:100; y:200
             width: 60
             text: "Right"
-            onClicked: label_hand_current.text="Right";
+            onClicked: {
+                currenthand = 0;
+                label_hand_current.text="Right";
+            }
         }
 
         ExclusiveGroup { id: notesGroup }
@@ -194,14 +201,17 @@ ApplicationWindow{
                 score_drawing.setMouse(mouseX, mouseY);
                 score_drawing.update();
             }
-            onClicked: {
+            onPressed: {
                 score_drawing.setMouse(mouseX, mouseY);
                 switch(pressedButtons){
                 case Qt.LeftButton:
-                    score_drawing.setNote(mouseX, mouseY, currentnote);
+                    score_drawing.setNote(currentnote, currenthand);
                     break;
                 case Qt.RightButton:
                     score_drawing.removeNote();
+                    break;
+                default:
+                    rec_score.border.color = "red";
                     break;
                 }
                 score_drawing.update();

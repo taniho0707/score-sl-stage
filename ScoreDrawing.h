@@ -5,6 +5,7 @@
 #include <QRect>
 #include <QFont>
 
+#include <iostream>
 #include <vector>
 
 #include "MusicData.h"
@@ -22,13 +23,13 @@ public:
 
 	Q_INVOKABLE void setMouse(const qreal x, const qreal y);
 
-	Q_INVOKABLE bool setNote(const int16_t mousex, const int16_t mousey, const int type, const int hand);
-	Q_INVOKABLE bool removeNote(const int16_t mousex, const int16_t mousey);
+	Q_INVOKABLE bool setNote(const int type, const int hand);
+	Q_INVOKABLE bool removeNote();
 
 	void drawGrayIcon(QPainter *painter);
 
 	void drawAllIcon(QPainter *painter);
-	void drawIcon(QPainter *painter);
+	void drawIcon(uint32_t x, uint32_t y, md::notetype t, QPainter *painter);
 
 	void drawGrid(QPainter *painter);
     void paint(QPainter *painter);
