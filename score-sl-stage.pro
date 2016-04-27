@@ -7,6 +7,8 @@ TARGET = score-sl-stage
 INCLUDEPATH += .
 QT += qml quick widgets gui
 
+CONFIG += c++11
+
 # Input
 SOURCES += main.cpp ScoreDrawing.cpp ScorePage.cpp
 HEADERS += ScoreDrawing.h ScorePage.h
