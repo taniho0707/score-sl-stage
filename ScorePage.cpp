@@ -60,6 +60,7 @@ uint32_t ScorePage::getNoteTime(uint32_t pageheight, uint32_t pagey){
 	
 	uint16_t length = bpm/measure;
 	uint32_t pixel = static_cast<uint32_t>((pagey+(pageheight/(2*divider)))/(pageheight/divider))*(pageheight/divider);
+
 	return length*pixel/pageheight;
 }
 
@@ -68,7 +69,7 @@ uint32_t ScorePage::getNoteLinePixel(uint32_t pagewidth, uint32_t pagex){
 }
 
 md::noteline ScorePage::getNoteLine(uint32_t pagewidth, uint32_t pagex){
-	return static_cast<md::noteline>(((pagex+pagewidth)/8)/(pagewidth/4));
+	return static_cast<md::noteline>((getNoteLinePixel(pagewidth, pagex)+(5*pagewidth/8))/(pagewidth/4));
 }
 
 std::pair<uint16_t, uint16_t> ScorePage::getNotePixels(uint32_t time, md::noteline line, uint32_t pageheight, uint32_t pagewidth){

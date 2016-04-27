@@ -4,6 +4,8 @@
 #include <iterator>
 #include <map>
 
+#include <iostream>
+
 #include "MusicData.h"
 
 class ScorePage{

@@ -31,15 +31,15 @@ bool ScoreDrawing::setNote(const int type, const int hand){
 	md::notetype mdtype = static_cast<md::notetype>(type);
 	md::notehand mdhand = static_cast<md::notehand>(hand);
 	(*currentpage).setNote(
-		(*currentpage).getNoteLine(m_width*4/6, m_mousex),
+		(*currentpage).getNoteLine(m_width*4/6, m_mousex-(m_width*2/6)),
 		mdtype,
 		mdhand,
-		(*currentpage).getNoteTime(m_height*8/10, m_mousey)
+		(*currentpage).getNoteTime(m_height*8/10, m_mousey-(m_height*2/10))
 		);
-	std::cout << "Set" << std::endl;
-	std::cout << static_cast<unsigned>((*currentpage).getNoteLine(m_width*4/6, m_mousex-(m_width*4/6)))
+	std::cout << "Set: ";
+	std::cout << static_cast<unsigned>((*currentpage).getNoteLine(m_width*4/6, m_mousex-(m_width*2/6)))
 			  << ", "
-			  << static_cast<unsigned>((*currentpage).getNoteTime(m_height*8/10, m_mousey-(m_height*8/10)))
+			  << static_cast<unsigned>((*currentpage).getNoteTime(m_height*8/10, m_mousey-(m_height*2/10)))
 			  << std::endl;
 }
 
@@ -74,9 +74,10 @@ void ScoreDrawing::drawAllIcon(QPainter *painter){
 			);
 		drawIcon(
 			pix.first  -14,
-			pix.second -14,
+			pix.second -14 + m_height/10,
 			md::notetype::SINGLE, painter
 			);
+		// @todo fix position
 	}
 }
 
