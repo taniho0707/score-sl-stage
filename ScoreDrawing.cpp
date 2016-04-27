@@ -6,7 +6,11 @@ ScoreDrawing::ScoreDrawing(QQuickItem *parent)
 	  m_height(500),
 	  page(100, 4, 0)
 {
-	
+	pages.reserve(100);
+	for(auto itr = pages.begin(); itr != pages.end(); ++itr) {
+		(*itr).setAll(100, 4, 0);
+	}
+	currentpage = pages.begin();
 }
 
 void ScoreDrawing::setNum(const int &num){
@@ -23,23 +27,60 @@ void ScoreDrawing::setMouse(const qreal x, const qreal y){
 }
 
 
-bool ScoreDrawing::setNote(const int16_t mousex, const int16_t mousey, const md::notetype type){
-	
+bool ScoreDrawing::setNote(const int type, const int hand){
+	md::notetype mdtype = static_cast<md::notetype>(type);
+	md::notehand mdhand = static_cast<md::notehand>(hand);
+	(*currentpage).setNote(
+		(*currentpage).getNoteLine(m_width*4/6, m_mousex-(m_width*2/6)),
+		mdtype,
+		mdhand,
+		(*currentpage).getNoteTime(m_height*8/10, m_mousey-(m_height*2/10))
+		);
+	std::cout << "Set: ";
+	std::cout << static_cast<unsigned>((*currentpage).getNoteLine(m_width*4/6, m_mousex-(m_width*2/6)))
+			  << ", "
+			  << static_cast<unsigned>((*currentpage).getNoteTime(m_height*8/10, m_mousey-(m_height*2/10)))
+			  << std::endl;
 }
 
-bool ScoreDrawing::removeNote(const int16_t mousex, const int16_t mousey){
+bool ScoreDrawing::removeNote(){
 	
 }
 
 void ScoreDrawing::drawGrayIcon(QPainter *painter){
 	QRect target(
-		page.getNoteLinePixel(m_width*4/6, m_mousex)-14,
-		page.getNoteTimePixel(m_height*8/10, m_mousey)-14,
+		(*currentpage).getNoteLinePixel(m_width*4/6, m_mousex-(m_width*2/6))-14+(m_width*2/6),
+		(*currentpage).getNoteTimePixel(m_height*8/10, m_mousey-(m_height*2/10))-14+(m_height*2/10),
 		28, 28);
 	QRect source(0, 0, 28, 28);
 	QImage image("./img/note1_gray.png");
 	painter->drawImage(target, image, source);
 }
+
+void ScoreDrawing::drawIcon(uint32_t x, uint32_t y, md::notetype t, QPainter *painter){
+	QRect target(x, y, 28, 28);
+	QRect source(0, 0, 28, 28);
+	QImage image("./img/note1.png");
+	painter->drawImage(target, image, source);
+	// @TODO adapt to showing note2-note4
+}
+
+void ScoreDrawing::drawAllIcon(QPainter *painter){
+	std::multimap<uint32_t, md::note> all = (*currentpage).getAllNotes();
+	for(auto itr = all.begin(); itr != all.end(); ++itr){
+		auto pix = (*currentpage).getNotePixels(
+			itr->first,
+			static_cast<md::noteline>(itr->second.line), m_height*8/10, m_width*4/6
+			);
+		drawIcon(
+			pix.first  -14,
+			pix.second -14 + m_height/10,
+			md::notetype::SINGLE, painter
+			);
+		// @todo fix position
+	}
+}
+
 
 void ScoreDrawing::drawGrid(QPainter *painter){
     QPen pen(QColor("black"));
@@ -63,6 +104,8 @@ void ScoreDrawing::drawGrid(QPainter *painter){
 void ScoreDrawing::paint(QPainter *painter){
 	drawGrid(painter);
 	drawGrayIcon(painter);
+
+	drawAllIcon(painter);
 
     // QFont font = QFont();
     // QPen pen(m_color, 3);

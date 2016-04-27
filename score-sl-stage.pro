@@ -6,6 +6,7 @@ TEMPLATE = app
 TARGET = score-sl-stage
 INCLUDEPATH += .
 QT += qml quick widgets gui
+QMAKE_CXXFLAGS += -g -O0
 
 CONFIG += c++11
 
