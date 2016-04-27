@@ -10,8 +10,8 @@
 
 class ScorePage{
 public:
-	ScorePage(uint16_t, uint16_t, uint16_t);
-	~ScorePage();
+	ScorePage(uint16_t m_bpm=100, uint16_t m_measure=4, uint16_t m_biastime=0);
+	virtual ~ScorePage();
 
 	void setDivide(uint16_t);
 

@@ -39,7 +39,7 @@ bool ScoreDrawing::setNote(const int type, const int hand){
 	std::cout << "Set: ";
 	std::cout << static_cast<unsigned>((*currentpage).getNoteLine(m_width*4/6, m_mousex-(m_width*2/6)))
 			  << ", "
-			  << static_cast<unsigned>((*currentpage).getNoteTime(m_height*8/10, m_mousey-(m_height*2/10)))
+			  << static_cast<unsigned>((*currentpage).getNoteTime(m_height*8/10, m_mousey-(m_height/10)))
 			  << std::endl;
 }
 
@@ -50,7 +50,7 @@ bool ScoreDrawing::removeNote(){
 void ScoreDrawing::drawGrayIcon(QPainter *painter){
 	QRect target(
 		(*currentpage).getNoteLinePixel(m_width*4/6, m_mousex-(m_width*2/6))-14+(m_width*2/6),
-		(*currentpage).getNoteTimePixel(m_height*8/10, m_mousey-(m_height*2/10))-14+(m_height*2/10),
+		(*currentpage).getNoteTimePixel(m_height*8/10, m_mousey-(m_height*2/10))-14+(m_height*3/10),
 		28, 28);
 	QRect source(0, 0, 28, 28);
 	QImage image("./img/note1_gray.png");
@@ -70,10 +70,11 @@ void ScoreDrawing::drawAllIcon(QPainter *painter){
 	for(auto itr = all.begin(); itr != all.end(); ++itr){
 		auto pix = (*currentpage).getNotePixels(
 			itr->first,
-			static_cast<md::noteline>(itr->second.line), m_height*8/10, m_width*4/6
+			static_cast<md::noteline>(itr->second.line),
+			m_height*8/10, m_width*4/6
 			);
 		drawIcon(
-			pix.first  -14,
+			pix.first  -14 + m_width/6,
 			pix.second -14 + m_height/10,
 			md::notetype::SINGLE, painter
 			);
