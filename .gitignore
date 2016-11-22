@@ -4,3 +4,4 @@
 Makefile
 score-sl-stage
 moc_*
+.qmake.stash
