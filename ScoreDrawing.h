@@ -29,7 +29,7 @@ public:
 	void drawGrayIcon(QPainter *painter);
 
 	void drawAllIcon(QPainter *painter);
-	void drawIcon(uint32_t x, uint32_t y, md::notetype t, QPainter *painter);
+	void drawIcon(uint32_t x, uint32_t y, md::Notetype t, QPainter *painter);
 
 	void drawGrid(QPainter *painter);
     void paint(QPainter *painter);

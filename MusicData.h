@@ -1,6 +1,6 @@
 #pragma once
 
-#include <vector>
+#include <map>
 #include <stdint.h>
 
 namespace md{
@@ -16,7 +16,7 @@ namespace md{
 		ERROR = 15
 	};
 
-	enum class noteline : uint8_t {
+	enum class Noteline : uint8_t {
 		LEFT,
 		LEFTMIDDLE,
 		MIDDLE,
@@ -31,25 +31,24 @@ namespace md{
 		ERROR = 3
 	};
 
-	enum class Denom : uint8_t {
-		FOUR,
-		EIGHT,
-		SIXTEEN,
-		THREE,
+	enum class Denom : uint16_t {
+		FOUR = 4,
+		EIGHT = 8,
+		SIXTEEN = 16,
+		THIRTYTWO = 32,
+		SIXTYFOUR = 64,
+		THREE = 3,
 	};
 
 	/* ノーツデータ
-	   1. ノーツタイプ
-	      4bit
-	      単音，連続開始，連続終了，スライド開始，スライド継続，スライド終了
-	   2. 演奏時刻
-	      18bit
-	      in ms
-	   3. 次のノーツ番号
-	      10bit
-	   4. 演奏腕
-	      1bit
-	      右，左
+	   1. 分母
+	      Denom
+	   2. 分子
+	      uint8_t
+	   3. 小節
+	      uint16_t
+	   4. ノーツタイプ
+	      Notetype
 	   5. ノーツライン
 	      3bit
 	*/
@@ -59,20 +58,21 @@ namespace md{
 		uint16_t measure;
 		Notetype type;
 		Noteline line;
+
+		uint32_t getNumber(){
+			return 64*measure + (64/static_cast<uint16_t>(denominator)*numerator);
+		}
 	};
 
 	class Score {
 	private:
 		
 	public:
-		std::list<struct Notedata> notes;
+		std::multimap<uint32_t, struct Notedata> notes;
 
 		Score();
 
-		bool addNote(uint16_t, struct Notedata);
-		bool removeNote(uint16_t, struct Notedata);
-
-		uint8_t getPage(std::list<struct Notedata>::iterator ite);
-		
+		std::multimap<uint32_t, struct Notedata>::iterator addNote(struct Notedata);
+		bool removeNote(uint32_t number, Noteline line);
 	};
 }

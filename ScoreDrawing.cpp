@@ -1,5 +1,7 @@
 #include "ScoreDrawing.h"
 
+using namespace md;
+
 ScoreDrawing::ScoreDrawing(QQuickItem *parent)
 	: QQuickPaintedItem(parent),
 	  m_width(300),
@@ -57,7 +59,7 @@ void ScoreDrawing::drawGrayIcon(QPainter *painter){
 	painter->drawImage(target, image, source);
 }
 
-void ScoreDrawing::drawIcon(uint32_t x, uint32_t y, md::notetype t, QPainter *painter){
+void ScoreDrawing::drawIcon(uint32_t x, uint32_t y, Notetype t, QPainter *painter){
 	QRect target(x, y, 28, 28);
 	QRect source(0, 0, 28, 28);
 	QImage image("./img/note1.png");
