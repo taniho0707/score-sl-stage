@@ -9,7 +9,6 @@
 #include <vector>
 
 #include "MusicData.h"
-#include "ScorePage.h"
 
 class ScoreDrawing : public QQuickPaintedItem{
     Q_OBJECT
@@ -35,9 +34,8 @@ public:
     void paint(QPainter *painter);
 
 private:
-	std::vector<ScorePage> pages;
-	ScorePage page;
-	std::vector<ScorePage>::iterator currentpage;
+	md::Score score;
+	uint16_t currentpage;
 	
 	const int16_t m_width, m_height;
 	uint32_t m_mousex, m_mousey;

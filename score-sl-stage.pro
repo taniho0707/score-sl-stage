@@ -8,8 +8,8 @@ INCLUDEPATH += .
 QT += qml quick widgets gui
 QMAKE_CXXFLAGS += -g -O0
 
-CONFIG += c++11
+CONFIG += c++14
 
 # Input
-SOURCES += main.cpp ScoreDrawing.cpp ScorePage.cpp
-HEADERS += ScoreDrawing.h ScorePage.h
+SOURCES += main.cpp ScoreDrawing.cpp
+HEADERS += ScoreDrawing.h

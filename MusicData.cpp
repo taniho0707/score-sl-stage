@@ -3,15 +3,15 @@
 using namespace std;
 using namespace md;
 
-MusicData::MusicData(){
+Score::Score(){
 	
 }
 
-multimap<uint32_t, struct Notedata>::iterator addNote(struct Notedata data){
+multimap<uint32_t, struct Notedata>::iterator Score::addNote(struct Notedata data){
 	return notes.emplace(data.getNumber(), data);
 }
 
-bool removeNote(uint32_t number, Noteline line){
+bool Score::removeNote(uint32_t number, Noteline line){
 	using iterator = multimap<uint32_t, struct Notedata>::iterator;
 	std::pair<iterator, iterator> ret = m.equal_range(number);
 	for(iterator it = ret.first; it != ret.second; ++it) {
