@@ -23,6 +23,7 @@ public:
 
 	Q_INVOKABLE void setMouse(const qreal x, const qreal y);
 
+	Q_INVOKABLE bool setDenom(const int denom);
 	Q_INVOKABLE bool setNote(const int type, const int hand);
 	Q_INVOKABLE bool removeNote();
 

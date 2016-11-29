@@ -16,6 +16,7 @@ ApplicationWindow{
     visible: true
     property int currentnote: 0
     property int currenthand: 0
+    property int currentdenom: 4
 
     Rectangle {
         id: rec_file
@@ -37,7 +38,71 @@ ApplicationWindow{
             text: "Save"
             onClicked: ;
         }
-   }
+    }
+    
+    Rectangle {
+        id: rec_denominator
+        x: 0
+        width: 140
+        color: "white"
+
+        Button {
+            id: button_denom_m
+            x: 30; y: 140;
+            width: 40
+            text: "-"
+            onClicked: {
+                if(currentdenom == 4){
+                    currentdenom = 3;
+                    label_denom.text = "3連符"
+                } else if(currentdenom == 8){
+                    currentdenom = 4;
+                    label_denom.text = "4分音符"
+                } else if(currentdenom == 16){
+                    currentdenom = 8;
+                    label_denom.text = "8分音符"
+                } else if(currentdenom == 32){
+                    currentdenom = 16;
+                    label_denom.text = "16分音符"
+                } else if(currentdenom == 64){
+                    currentdenom = 32;
+                    label_denom.text = "32分音符"
+                }
+                score_drawing.setDenom(currentdenom);
+            }
+        }
+        Button {
+            id: button_denom_p
+            x: 80; y: 140;
+            width: 40
+            text: "+"
+            onClicked: {
+                if(currentdenom == 4){
+                    currentdenom = 8;
+                    label_denom.text = "8分音符"
+                } else if(currentdenom == 8){
+                    currentdenom = 16;
+                    label_denom.text = "16分音符"
+                } else if(currentdenom == 16){
+                    currentdenom = 32;
+                    label_denom.text = "32分音符"
+                } else if(currentdenom == 32){
+                    currentdenom = 64;
+                    label_denom.text = "64分音符"
+                } else if(currentdenom == 3){
+                    currentdenom = 4;
+                    label_denom.text = "4分音符"
+                }
+                score_drawing.setDenom(currentdenom);
+            }
+        }
+        Label {
+            id: label_denom
+            x: 130; y: 140;
+            font.pixelSize: 18
+            text: qsTr("4分音符");
+        }
+    }
 
     Rectangle {
         id: rec_scoreconfig
