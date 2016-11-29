@@ -128,8 +128,8 @@ Noteline ScoreDrawing::getMousex2Line(uint32_t x){
 }
 Notedata ScoreDrawing::getMousey2Line(uint32_t y, md::Denom denom){
 	int16_t max = m_height * 4 / 5;
-	int16_t newy = m_height - y;
-	int16_t tmp = floor(newy * static_cast<uint16_t>(denom) / max);
+	int16_t newy = m_height - y - m_height/10;
+	int16_t tmp = floor((newy + max/(2*static_cast<uint16_t>(denom))) * static_cast<uint16_t>(denom) / max);
 	return (struct Notedata){denom, tmp, 0, Notetype::SINGLE, Noteline::MIDDLE};
 }
 
