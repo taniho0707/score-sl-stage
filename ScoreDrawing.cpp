@@ -27,9 +27,9 @@ void ScoreDrawing::setMouse(const qreal x, const qreal y){
 
 
 bool ScoreDrawing::setNote(const int type, const int hand){
-	Notetype mdtype = static_cast<Notetype>(type);
 	struct Notedata note = getMousey2Line(m_mousey+14, m_divider);
 	note.line = getMousex2Line(m_mousex + 14);
+	note.type = static_cast<Notetype>(type);
 	scoredata.addNote(note);
 	std::cout << "Set: "
 		<< "line:" << static_cast<uint16_t>(note.line) << ", "
@@ -83,11 +83,11 @@ void ScoreDrawing::drawAllIcon(QPainter *painter){
 			break;
 		case Notetype::SLIDELEFT_CONT:
 		case Notetype::SLIDELEFT_END:
-			image.load("./img/note4.png");
+			image.load("./img/note3.png");
 			break;
 		case Notetype::SLIDERIGHT_CONT:
 		case Notetype::SLIDERIGHT_END:
-			image.load("./img/note5.png");
+			image.load("./img/note4.png");
 			break;
 		}
 		painter->drawImage(target, image, source);
@@ -134,15 +134,4 @@ void ScoreDrawing::paint(QPainter *painter){
 	drawGrayIcon(painter);
 
 	drawAllIcon(painter);
-
-    // QFont font = QFont();
-    // QPen pen(m_color, 3);
-    // QRect rect(0, 0, 100, 100);
-    // rect.moveTo(110, 70);
-    // font.setPointSize(30);
-    // painter->setFont(font);
-    // painter->setPen(pen);
-    // painter->setRenderHints(QPainter::Antialiasing, true);
-    // painter->fillRect(rect, "white");
-    // painter->drawText(150, 110, m_num);
 }

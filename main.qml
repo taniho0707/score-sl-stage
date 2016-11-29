@@ -100,39 +100,27 @@ ApplicationWindow{
         }
         RadioButton {
             x: 80; y: 320
-            text: "LeftFlick Start"
+            text: "LeftFlick Continue"
+            exclusiveGroup: notesGroup
+            onClicked: currentnote = 5;
+        }
+        RadioButton {
+            x: 80; y: 350
+            text: "LeftFlick End"
             exclusiveGroup: notesGroup
             onClicked: currentnote = 6;
         }
         RadioButton {
-            x: 80; y: 350
-            text: "LeftFlick Continue"
-            exclusiveGroup: notesGroup
-            onClicked: currentnote = 7;
-        }
-        RadioButton {
             x: 80; y: 380
-            text: "LeftFlick End"
-            exclusiveGroup: notesGroup
-            onClicked: currentnote = 8;
-        }
-        RadioButton {
-            x: 80; y: 410
-            text: "RightFlick Start"
+            text: "RightFlick Continue"
             exclusiveGroup: notesGroup
             onClicked: currentnote = 3;
         }
         RadioButton {
-            x: 80; y: 440
-            text: "RightFlick Continue"
-            exclusiveGroup: notesGroup
-            onClicked: currentnote = 4;
-        }
-        RadioButton {
-            x: 80; y: 470
+            x: 80; y: 410
             text: "RightFlick End"
             exclusiveGroup: notesGroup
-            onClicked: currentnote = 5;
+            onClicked: currentnote = 4;
         }
         Image {
             x: 30; y: 230
@@ -147,7 +135,7 @@ ApplicationWindow{
             source: "img/note3.png"
         }
         Image {
-            x: 30; y: 410
+            x: 30; y: 380
             source: "img/note4.png"
         }
 
