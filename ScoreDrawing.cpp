@@ -25,6 +25,10 @@ void ScoreDrawing::setMouse(const qreal x, const qreal y){
 	m_mousey = static_cast<uint32_t>(y);
 }
 
+void ScoreDrawing::changePage(const int page){
+	currentpage = page;
+}
+
 
 bool ScoreDrawing::setDenom(const int denom){
 	m_divider = static_cast<Denom>(denom);
@@ -35,6 +39,7 @@ bool ScoreDrawing::setNote(const int type, const int hand){
 	struct Notedata note = getMousey2Line(m_mousey, m_divider);
 	note.line = getMousex2Line(m_mousex);
 	note.type = static_cast<Notetype>(type);
+	note.measure = currentpage;
 	scoredata.addNote(note);
 	std::cout << "Set: "
 		<< "line:" << static_cast<uint16_t>(note.line) << ", "

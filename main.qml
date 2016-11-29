@@ -207,18 +207,21 @@ ApplicationWindow{
         Button {
             id: button_prevpage
             x:30; y:500
-            width: 60
+            width: 40
             text: "-"
-            onClicked: label_page_current.text = parseInt(label_page_current.text) - 1;
+            onClicked: {
+                label_page_current.text = parseInt(label_page_current.text) - 1;
+                score_drawing.changePage(parseInt(label_page_current.text));
+            }
         }
         Label {
-            x: 100; y: 500
+            x: 80; y: 500
             id: label_page_current
             font.pixelSize: 18
-            text: qsTr("0")
+            text: qsTr("1")
         }
         Label {
-            x: 120; y: 500
+            x: 110; y: 500
             id: label_page_max
             font.pixelSize: 18
             text: qsTr("/10")
@@ -226,9 +229,12 @@ ApplicationWindow{
         Button {
             id: button_nextpage
             x:150; y:500
-            width: 60
+            width: 40
             text: "+"
-            onClicked: label_page_current.text = 1 + parseInt(label_page_current.text);
+            onClicked: {
+                label_page_current.text = 1 + parseInt(label_page_current.text);
+                score_drawing.changePage(parseInt(label_page_current.text));
+            }
         }
     }
 
