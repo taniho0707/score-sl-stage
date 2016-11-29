@@ -32,8 +32,8 @@ bool ScoreDrawing::setDenom(const int denom){
 }
 
 bool ScoreDrawing::setNote(const int type, const int hand){
-	struct Notedata note = getMousey2Line(m_mousey+14, m_divider);
-	note.line = getMousex2Line(m_mousex + 14);
+	struct Notedata note = getMousey2Line(m_mousey, m_divider);
+	note.line = getMousex2Line(m_mousex);
 	note.type = static_cast<Notetype>(type);
 	scoredata.addNote(note);
 	std::cout << "Set: "
@@ -48,9 +48,9 @@ bool ScoreDrawing::removeNote(){
 }
 
 void ScoreDrawing::drawGrayIcon(QPainter *painter){
-	Notedata note = getMousey2Line(m_mousey+14, m_divider);
+	Notedata note = getMousey2Line(m_mousey, m_divider);
 	QRect target(
-		(static_cast<int16_t>(getMousex2Line(m_mousex + 14))+1)*(m_width/6) - 14,
+		(static_cast<int16_t>(getMousex2Line(m_mousex))+1)*(m_width/6) - 14,
 		(m_height - (m_height*4/5)*note.numerator/static_cast<uint16_t>(note.denominator) - (m_height/10)) - 14,
 		28, 28);
 	QRect source(0, 0, 28, 28);
