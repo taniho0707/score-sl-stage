@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 #include "MusicData.h"
 
@@ -33,10 +34,15 @@ public:
 	void drawGrid(QPainter *painter);
     void paint(QPainter *painter);
 
+	// pixel convertion funcs
+	md::Noteline getMousex2Line(uint32_t x);
+	md::Notedata getMousey2Line(uint32_t y, md::Denom denom);
+
 private:
-	md::Score score;
+	md::Score scoredata;
 	uint16_t currentpage;
 	
 	const int16_t m_width, m_height;
 	uint32_t m_mousex, m_mousey;
+	md::Denom m_divider;
 };

@@ -1,18 +1,15 @@
 #include "ScoreDrawing.h"
 
+using namespace std;
 using namespace md;
 
 ScoreDrawing::ScoreDrawing(QQuickItem *parent)
 	: QQuickPaintedItem(parent),
 	  m_width(300),
 	  m_height(500),
-	  page(100, 4, 0)
+	  m_divider(Denom::FOUR)
 {
-	pages.reserve(100);
-	for(auto itr = pages.begin(); itr != pages.end(); ++itr) {
-		(*itr).setAll(100, 4, 0);
-	}
-	currentpage = pages.begin();
+	currentpage = 0;
 }
 
 void ScoreDrawing::setNum(const int &num){
@@ -30,19 +27,14 @@ void ScoreDrawing::setMouse(const qreal x, const qreal y){
 
 
 bool ScoreDrawing::setNote(const int type, const int hand){
-	md::notetype mdtype = static_cast<md::notetype>(type);
-	md::notehand mdhand = static_cast<md::notehand>(hand);
-	(*currentpage).setNote(
-		(*currentpage).getNoteLine(m_width*4/6, m_mousex-(m_width*2/6)),
-		mdtype,
-		mdhand,
-		(*currentpage).getNoteTime(m_height*8/10, m_mousey-(m_height*2/10))
-		);
-	std::cout << "Set: ";
-	std::cout << static_cast<unsigned>((*currentpage).getNoteLine(m_width*4/6, m_mousex-(m_width*2/6)))
-			  << ", "
-			  << static_cast<unsigned>((*currentpage).getNoteTime(m_height*8/10, m_mousey-(m_height/10)))
-			  << std::endl;
+	Notetype mdtype = static_cast<Notetype>(type);
+	struct Notedata note = getMousey2Line(m_mousey+14, m_divider);
+	note.line = getMousex2Line(m_mousex + 14);
+	scoredata.addNote(note);
+	std::cout << "Set: "
+		<< "line:" << static_cast<uint16_t>(note.line) << ", "
+		<< static_cast<uint16_t>(note.numerator) << " / " << static_cast<uint16_t>(note.denominator)
+		<< std::endl;
 }
 
 bool ScoreDrawing::removeNote(){
@@ -50,9 +42,10 @@ bool ScoreDrawing::removeNote(){
 }
 
 void ScoreDrawing::drawGrayIcon(QPainter *painter){
+	Notedata note = getMousey2Line(m_mousey+14, m_divider);
 	QRect target(
-		(*currentpage).getNoteLinePixel(m_width*4/6, m_mousex-(m_width*2/6))-14+(m_width*2/6),
-		(*currentpage).getNoteTimePixel(m_height*8/10, m_mousey-(m_height*2/10))-14+(m_height*3/10),
+		(static_cast<int16_t>(getMousex2Line(m_mousex + 14))+1)*(m_width/6) - 14,
+		(m_height - (m_height*4/5)*note.numerator/static_cast<uint16_t>(note.denominator) - (m_height/10)) - 14,
 		28, 28);
 	QRect source(0, 0, 28, 28);
 	QImage image("./img/note1_gray.png");
@@ -68,19 +61,36 @@ void ScoreDrawing::drawIcon(uint32_t x, uint32_t y, Notetype t, QPainter *painte
 }
 
 void ScoreDrawing::drawAllIcon(QPainter *painter){
-	std::multimap<uint32_t, md::note> all = (*currentpage).getAllNotes();
-	for(auto itr = all.begin(); itr != all.end(); ++itr){
-		auto pix = (*currentpage).getNotePixels(
-			itr->first,
-			static_cast<md::noteline>(itr->second.line),
-			m_height*8/10, m_width*4/6
-			);
-		drawIcon(
-			pix.first  -14 + m_width/6,
-			pix.second -14 + m_height/10,
-			md::notetype::SINGLE, painter
-			);
-		// @todo fix position
+	struct Notedata zero = {Denom::FOUR, 0, currentpage, Notetype::SINGLE, Noteline::MIDDLE};
+	using iterator = multimap<uint32_t, struct Notedata>::iterator;
+	iterator it = scoredata.notes.lower_bound(zero.getNumber());
+	zero.measure = currentpage+1;
+	iterator top = scoredata.notes.upper_bound(zero.getNumber());
+	for(iterator cnote = it; it != top; ++it) {
+		QRect target(
+			(static_cast<int16_t>(it->second.line)+1)*(m_width/6) - 14,
+			(m_height - (m_height*4/5)*it->second.numerator/static_cast<uint16_t>(it->second.denominator) - (m_height/10)) - 14,
+			28, 28);
+		QRect source(0, 0, 28, 28);
+		QImage image("./img/note1_gray.png");
+		switch(it->second.type){
+		case Notetype::SINGLE:
+			image.load("./img/note1.png");
+			break;
+		case Notetype::LONG_START:
+		case Notetype::LONG_END:
+			image.load("./img/note2.png");
+			break;
+		case Notetype::SLIDELEFT_CONT:
+		case Notetype::SLIDELEFT_END:
+			image.load("./img/note4.png");
+			break;
+		case Notetype::SLIDERIGHT_CONT:
+		case Notetype::SLIDERIGHT_END:
+			image.load("./img/note5.png");
+			break;
+		}
+		painter->drawImage(target, image, source);
 	}
 }
 
@@ -102,6 +112,21 @@ void ScoreDrawing::drawGrid(QPainter *painter){
 		painter->fillRect(rect, "black");
 	}
 }
+
+
+Noteline ScoreDrawing::getMousex2Line(uint32_t x){
+	int16_t tmp = floor((x - (m_width/12))/(m_width/6));
+	if(tmp < 0) tmp = 0;
+	if(tmp > 4) tmp = 4;
+	return static_cast<Noteline>(tmp);
+}
+Notedata ScoreDrawing::getMousey2Line(uint32_t y, md::Denom denom){
+	int16_t max = m_height * 4 / 5;
+	int16_t newy = m_height - y;
+	int16_t tmp = floor(newy * static_cast<uint16_t>(denom) / max);
+	return (struct Notedata){denom, tmp, 0, Notetype::SINGLE, Noteline::MIDDLE};
+}
+
 
 // called as update()
 void ScoreDrawing::paint(QPainter *painter){

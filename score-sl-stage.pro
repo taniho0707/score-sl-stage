@@ -11,5 +11,5 @@ QMAKE_CXXFLAGS += -g -O0
 CONFIG += c++14
 
 # Input
-SOURCES += main.cpp ScoreDrawing.cpp
-HEADERS += ScoreDrawing.h
+SOURCES += main.cpp ScoreDrawing.cpp MusicData.cpp
+HEADERS += ScoreDrawing.h MusicData.h

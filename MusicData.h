@@ -70,7 +70,7 @@ namespace md{
 	public:
 		std::multimap<uint32_t, struct Notedata> notes;
 
-		Score();
+		explicit Score();
 
 		std::multimap<uint32_t, struct Notedata>::iterator addNote(struct Notedata);
 		bool removeNote(uint32_t number, Noteline line);
