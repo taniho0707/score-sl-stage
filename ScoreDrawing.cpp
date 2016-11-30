@@ -31,8 +31,13 @@ void ScoreDrawing::changePage(const int page){
 }
 
 
+QString ScoreDrawing::getFilename(){
+	return QString::fromStdString(filename);
+}
+
 bool ScoreDrawing::setFilename(const QString &name){
 	filename = QUrl(name).fileName().toStdString();
+	filename = "score/" + filename;
 	
 	ifstream fin(filename, ios::in | ios::binary );
 	if (!fin){

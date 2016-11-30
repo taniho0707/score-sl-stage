@@ -37,6 +37,7 @@ ApplicationWindow{
             filename = fileDialog.fileUrl
             console.log("File loading " + filename);
             score_drawing.setFilename(filename);
+            button_filename.text = score_drawing.getFilename();
             fileDialog.visible = false;
         }
         onRejected: {
@@ -50,17 +51,24 @@ ApplicationWindow{
         x: 0
         width: 140
         color: "white"
+
+        Label {
+            id: button_filename
+            x:30; y:30
+            width: 140
+            text: ""
+        }
         
         Button {
             id: button_new
-            x:30; y:40
+            x:30; y:60
             width: 120
             text: "New/Open"
             onClicked: fileDialog.visible = true;
         }
         Button {
             id: button_save
-            x:30; y:80
+            x:30; y:90
             width: 120
             text: "Save"
             onClicked: {
