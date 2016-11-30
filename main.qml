@@ -63,7 +63,9 @@ ApplicationWindow{
             x:30; y:80
             width: 120
             text: "Save"
-            onClicked: ;
+            onClicked: {
+                score_drawing.save();
+            }
         }
     }
     

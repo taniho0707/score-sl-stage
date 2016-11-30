@@ -33,6 +33,24 @@ void ScoreDrawing::changePage(const int page){
 
 bool ScoreDrawing::setFilename(const QString &name){
 	filename = QUrl(name).fileName().toStdString();
+	
+	ifstream fin(filename, ios::in | ios::binary );
+	if (!fin){
+		cout << "Cannot open or not exist " << filename << endl;
+		return false;
+	}
+	uint32_t size = 0;
+	fin.read((char *) &size, sizeof(uint32_t));
+	cout << "Notes: " << size << endl;
+	struct Notedata data;
+	scoredata.notes.clear();
+	for(int i=0; i<size; ++i){
+		fin.read((char *) &data, sizeof(struct Notedata));
+		cout << "denom:" << (uint16_t)data.denominator << ",num:" << (uint16_t)data.numerator << ",measure:" << data.measure << endl;
+		scoredata.addNote(data);
+	}
+	fin.close();
+	cout << filename << " loaded." << endl;
 }
 
 bool ScoreDrawing::setDenom(const int denom){
@@ -55,6 +73,24 @@ bool ScoreDrawing::setNote(const int type, const int hand){
 
 bool ScoreDrawing::removeNote(){
 	
+}
+
+bool ScoreDrawing::save(){
+	ofstream fout;
+	fout.open(filename, ios::out|ios::binary|ios::trunc);
+	if (!fout) {
+		cout << "failure to open " << filename << endl;
+		return false;
+	}
+	uint32_t size = scoredata.notes.size();
+	fout.write((char *) &size, sizeof(uint32_t));
+	for(auto it : scoredata.notes){
+		fout.write((char *) &it.second, sizeof(struct Notedata));
+	}
+	fout.close();
+	cout << "Saved score to " << filename << endl;
+	cout << sizeof(struct Notedata) << endl;
+	return true;
 }
 
 void ScoreDrawing::drawGrayIcon(QPainter *painter){

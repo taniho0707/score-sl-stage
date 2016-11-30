@@ -6,6 +6,7 @@
 #include <QFont>
 
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <string>
 #include <cmath>
@@ -29,6 +30,8 @@ public:
 	Q_INVOKABLE bool setDenom(const int denom);
 	Q_INVOKABLE bool setNote(const int type, const int hand);
 	Q_INVOKABLE bool removeNote();
+
+	Q_INVOKABLE bool save();
 
 	void drawGrayIcon(QPainter *painter);
 

@@ -62,7 +62,7 @@ namespace md{
 		uint32_t getNumber(){
 			return 64*measure + (64/static_cast<uint16_t>(denominator)*numerator);
 		}
-	};
+	} __attribute__((packed));
 
 	class Score {
 	private:
