@@ -9,7 +9,8 @@ ScoreDrawing::ScoreDrawing(QQuickItem *parent)
 	  m_height(500),
 	  m_divider(Denom::FOUR)
 {
-	currentpage = 0;
+	currentpage = 1;
+	filename.clear();
 }
 
 void ScoreDrawing::setNum(const int &num){
@@ -29,6 +30,10 @@ void ScoreDrawing::changePage(const int page){
 	currentpage = page;
 }
 
+
+bool ScoreDrawing::setFilename(const QString &name){
+	filename = QUrl(name).fileName().toStdString();
+}
 
 bool ScoreDrawing::setDenom(const int denom){
 	m_divider = static_cast<Denom>(denom);

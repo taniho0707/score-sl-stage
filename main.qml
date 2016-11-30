@@ -2,6 +2,7 @@
 
 import QtQuick 2.0
 import QtQuick.Controls 1.0
+import QtQuick.Dialogs 1.1
 import ScoreDrawing 1.0
 
 
@@ -18,6 +19,32 @@ ApplicationWindow{
     property int currenthand: 0
     property int currentdenom: 4
 
+    property int maxpage: 10
+    property string filename: ''
+
+    FileDialog {
+        id: fileDialog
+        visible: false
+        modality: Qt.WindowModal //: Qt.NonModal
+        title: "Choose or Create a file"
+        selectExisting: false
+        selectMultiple: false
+        selectFolder: false
+        nameFilters: [ "Score files (*.score)", "All files (*)" ]
+        selectedNameFilter: "All files (*)"
+        sidebarVisible: true
+        onAccepted: {
+            filename = fileDialog.fileUrl
+            console.log("File loading " + filename);
+            score_drawing.setFilename(filename);
+            fileDialog.visible = false;
+        }
+        onRejected: {
+            console.log("Rejected");
+            fileDialog.visible = false;
+        }
+    }
+    
     Rectangle {
         id: rec_file
         x: 0
@@ -29,7 +56,7 @@ ApplicationWindow{
             x:30; y:40
             width: 120
             text: "New/Open"
-            onClicked: ;
+            onClicked: fileDialog.visible = true;
         }
         Button {
             id: button_save
@@ -212,6 +239,7 @@ ApplicationWindow{
             onClicked: {
                 label_page_current.text = parseInt(label_page_current.text) - 1;
                 score_drawing.changePage(parseInt(label_page_current.text));
+                score_drawing.update();
             }
         }
         Label {
@@ -234,6 +262,7 @@ ApplicationWindow{
             onClicked: {
                 label_page_current.text = 1 + parseInt(label_page_current.text);
                 score_drawing.changePage(parseInt(label_page_current.text));
+                score_drawing.update();
             }
         }
     }

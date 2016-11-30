@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
 #include <cmath>
 
 #include "MusicData.h"
@@ -24,6 +25,7 @@ public:
 	Q_INVOKABLE void setMouse(const qreal x, const qreal y);
 	Q_INVOKABLE void changePage(const int page);
 
+	Q_INVOKABLE bool setFilename(const QString& name);
 	Q_INVOKABLE bool setDenom(const int denom);
 	Q_INVOKABLE bool setNote(const int type, const int hand);
 	Q_INVOKABLE bool removeNote();
@@ -43,6 +45,7 @@ public:
 private:
 	md::Score scoredata;
 	uint16_t currentpage;
+	std::string filename;
 	
 	const int16_t m_width, m_height;
 	uint32_t m_mousex, m_mousey;
