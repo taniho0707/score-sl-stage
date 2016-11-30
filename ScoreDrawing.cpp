@@ -51,6 +51,7 @@ bool ScoreDrawing::setFilename(const QString &name){
 	}
 	fin.close();
 	cout << filename << " loaded." << endl;
+	update();
 }
 
 bool ScoreDrawing::setDenom(const int denom){
@@ -72,7 +73,24 @@ bool ScoreDrawing::setNote(const int type, const int hand){
 }
 
 bool ScoreDrawing::removeNote(){
-	
+	struct Notedata note = getMousey2Line(m_mousey, m_divider);
+	note.line = getMousex2Line(m_mousex);
+	note.measure = currentpage;
+
+	using iterator = multimap<uint32_t, struct Notedata>::iterator;
+	std::pair<iterator, iterator> ret = scoredata.notes.equal_range(note.getNumber());
+	for(iterator it = ret.first; it != ret.second; ++it) {
+		if(it->second.line == note.line){
+			scoredata.notes.erase(it);
+			cout << "Remove: "
+				<< "line:" << static_cast<uint16_t>(note.line) << ", "
+				<< static_cast<uint16_t>(note.numerator) << " / " << static_cast<uint16_t>(note.denominator)
+					  << endl;
+			return true;
+		}
+	}
+	cout << "No notes." << endl;
+	return false;
 }
 
 bool ScoreDrawing::save(){

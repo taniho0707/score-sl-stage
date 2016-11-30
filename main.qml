@@ -239,9 +239,11 @@ ApplicationWindow{
             width: 40
             text: "-"
             onClicked: {
-                label_page_current.text = parseInt(label_page_current.text) - 1;
-                score_drawing.changePage(parseInt(label_page_current.text));
-                score_drawing.update();
+                if(parseInt(label_page_current.text) > 1){
+                    label_page_current.text = parseInt(label_page_current.text) - 1;
+                    score_drawing.changePage(parseInt(label_page_current.text));
+                    score_drawing.update();
+                }
             }
         }
         Label {
