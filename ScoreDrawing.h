@@ -26,6 +26,7 @@ public:
 	Q_INVOKABLE void setMouse(const qreal x, const qreal y);
 	Q_INVOKABLE void changePage(const int page);
 
+	Q_INVOKABLE bool setType(const int type);
 	Q_INVOKABLE int getMaxpage();
 	Q_INVOKABLE void setMaxpage(const int page);
 	Q_INVOKABLE QString getFilename();
@@ -53,6 +54,8 @@ private:
 	uint16_t currentpage;
 	uint16_t maxpage;
 	std::string filename;
+	
+	QImage mouse_image;
 	
 	const int16_t m_width, m_height;
 	uint32_t m_mousex, m_mousey;

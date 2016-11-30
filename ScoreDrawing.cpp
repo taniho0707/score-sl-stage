@@ -11,6 +11,7 @@ ScoreDrawing::ScoreDrawing(QQuickItem *parent)
 {
 	currentpage = 1;
 	maxpage = 30;
+	mouse_image.load("./img/note1_gray.png");
 	filename.clear();
 }
 
@@ -31,6 +32,26 @@ void ScoreDrawing::changePage(const int page){
 	currentpage = page;
 }
 
+
+bool ScoreDrawing::setType(const int type){
+	switch(static_cast<Notetype>(type)){
+	case Notetype::SINGLE:
+		mouse_image.load("./img/note1_gray.png");
+		break;
+	case Notetype::LONG_START:
+	case Notetype::LONG_END:
+		mouse_image.load("./img/note2_gray.png");
+		break;
+	case Notetype::SLIDELEFT_CONT:
+	case Notetype::SLIDELEFT_END:
+		mouse_image.load("./img/note3_gray.png");
+		break;
+	case Notetype::SLIDERIGHT_CONT:
+	case Notetype::SLIDERIGHT_END:
+		mouse_image.load("./img/note4_gray.png");
+		break;
+	}
+}
 
 int ScoreDrawing::getMaxpage(){
 	return maxpage;
@@ -80,10 +101,21 @@ bool ScoreDrawing::setNote(const int type, const int hand){
 	note.line = getMousex2Line(m_mousex);
 	note.type = static_cast<Notetype>(type);
 	note.measure = currentpage;
+
+	using iterator = multimap<uint32_t, struct Notedata>::iterator;
+	std::pair<iterator, iterator> ret = scoredata.notes.equal_range(note.getNumber());
+	for(iterator it = ret.first; it != ret.second; ++it) {
+		if(it->second.line == note.line){
+			cout << "Already exists" << endl;
+			return false;
+		}
+	}
+
 	scoredata.addNote(note);
 	std::cout << "Set: "
 		<< "line:" << static_cast<uint16_t>(note.line) << ", "
 		<< static_cast<uint16_t>(note.numerator) << " / " << static_cast<uint16_t>(note.denominator)
+		<< ", Num: " << note.getNumber()
 		<< std::endl;
 	return true;
 }
@@ -135,8 +167,7 @@ void ScoreDrawing::drawGrayIcon(QPainter *painter){
 		(m_height - (m_height*4/5)*note.numerator/static_cast<uint16_t>(note.denominator) - (m_height/10)) - 14,
 		28, 28);
 	QRect source(0, 0, 28, 28);
-	QImage image("./img/note1_gray.png");
-	painter->drawImage(target, image, source);
+	painter->drawImage(target, mouse_image, source);
 }
 
 void ScoreDrawing::drawIcon(uint32_t x, uint32_t y, Notetype t, QPainter *painter){
@@ -150,9 +181,9 @@ void ScoreDrawing::drawIcon(uint32_t x, uint32_t y, Notetype t, QPainter *painte
 void ScoreDrawing::drawAllIcon(QPainter *painter){
 	struct Notedata zero = {Denom::FOUR, 0, currentpage, Notetype::SINGLE, Noteline::MIDDLE};
 	using iterator = multimap<uint32_t, struct Notedata>::iterator;
-	iterator it = scoredata.notes.lower_bound(zero.getNumber());
+	iterator it = scoredata.notes.lower_bound(zero.getNumber()-1);
 	zero.measure = currentpage+1;
-	iterator top = scoredata.notes.upper_bound(zero.getNumber());
+	iterator top = scoredata.notes.upper_bound(zero.getNumber()-1);
 	for(iterator cnote = it; it != top; ++it) {
 		QRect target(
 			(static_cast<int16_t>(it->second.line)+1)*(m_width/6) - 14,
@@ -220,7 +251,6 @@ Notedata ScoreDrawing::getMousey2Line(uint32_t y, md::Denom denom){
 // called as update()
 void ScoreDrawing::paint(QPainter *painter){
 	drawGrid(painter);
-	drawGrayIcon(painter);
-
 	drawAllIcon(painter);
+	drawGrayIcon(painter);
 }

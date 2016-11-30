@@ -187,43 +187,43 @@ ApplicationWindow{
             text: "Single"
             checked: true
             exclusiveGroup: notesGroup
-            onClicked: currentnote = 0;
+            onClicked: { currentnote = 0; score_drawing.setType(currentnote); }
         }
         RadioButton {
             x: 80; y: 260
             text: "Long Start"
             exclusiveGroup: notesGroup
-            onClicked: currentnote = 1;
+            onClicked: { currentnote = 1; score_drawing.setType(currentnote); }
         }
         RadioButton {
             x: 80; y: 290
             text: "Long End"
             exclusiveGroup: notesGroup
-            onClicked: currentnote = 2;
+            onClicked: { currentnote = 2; score_drawing.setType(currentnote); }
         }
         RadioButton {
             x: 80; y: 320
             text: "LeftFlick Continue"
             exclusiveGroup: notesGroup
-            onClicked: currentnote = 5;
+            onClicked: { currentnote = 5; score_drawing.setType(currentnote); }
         }
         RadioButton {
             x: 80; y: 350
             text: "LeftFlick End"
             exclusiveGroup: notesGroup
-            onClicked: currentnote = 6;
+            onClicked: { currentnote = 6; score_drawing.setType(currentnote); }
         }
         RadioButton {
             x: 80; y: 380
             text: "RightFlick Continue"
             exclusiveGroup: notesGroup
-            onClicked: currentnote = 3;
+            onClicked: { currentnote = 3; score_drawing.setType(currentnote); }
         }
         RadioButton {
             x: 80; y: 410
             text: "RightFlick End"
             exclusiveGroup: notesGroup
-            onClicked: currentnote = 4;
+            onClicked: { currentnote = 4; score_drawing.setType(currentnote); }
         }
         Image {
             x: 30; y: 230
