@@ -10,6 +10,7 @@ ScoreDrawing::ScoreDrawing(QQuickItem *parent)
 	  m_divider(Denom::FOUR)
 {
 	currentpage = 1;
+	maxpage = 30;
 	filename.clear();
 }
 
@@ -31,6 +32,13 @@ void ScoreDrawing::changePage(const int page){
 }
 
 
+int ScoreDrawing::getMaxpage(){
+	return maxpage;
+}
+void ScoreDrawing::setMaxpage(const int page){
+	maxpage = page;
+}
+
 QString ScoreDrawing::getFilename(){
 	return QString::fromStdString(filename);
 }
@@ -44,6 +52,9 @@ bool ScoreDrawing::setFilename(const QString &name){
 		cout << "Cannot open or not exist " << filename << endl;
 		return false;
 	}
+	uint32_t max = 0;
+	fin.read((char *) &max, sizeof(uint32_t));
+	maxpage = max;
 	uint32_t size = 0;
 	fin.read((char *) &size, sizeof(uint32_t));
 	cout << "Notes: " << size << endl;
@@ -105,6 +116,7 @@ bool ScoreDrawing::save(){
 		cout << "failure to open " << filename << endl;
 		return false;
 	}
+	fout.write((char *) &maxpage, sizeof(uint32_t));
 	uint32_t size = scoredata.notes.size();
 	fout.write((char *) &size, sizeof(uint32_t));
 	for(auto it : scoredata.notes){

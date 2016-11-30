@@ -38,6 +38,7 @@ ApplicationWindow{
             console.log("File loading " + filename);
             score_drawing.setFilename(filename);
             button_filename.text = score_drawing.getFilename();
+            label_page_max.text = ''+score_drawing.getMaxpage();
             fileDialog.visible = false;
         }
         onRejected: {
@@ -249,6 +250,7 @@ ApplicationWindow{
             onClicked: {
                 if(parseInt(label_page_current.text) > 1){
                     label_page_current.text = parseInt(label_page_current.text) - 1;
+                    label_page_max.text = ''+score_drawing.getMaxpage();
                     score_drawing.changePage(parseInt(label_page_current.text));
                     score_drawing.update();
                 }
@@ -262,19 +264,51 @@ ApplicationWindow{
         }
         Label {
             x: 110; y: 500
+            id: label_page_slash
+            font.pixelSize: 18
+            text: qsTr("/")
+        }
+        Label {
+            x: 120; y: 500
             id: label_page_max
             font.pixelSize: 18
-            text: qsTr("/10")
+            text: qsTr("30")
         }
         Button {
             id: button_nextpage
-            x:150; y:500
+            x:170; y:500
             width: 40
             text: "+"
             onClicked: {
-                label_page_current.text = 1 + parseInt(label_page_current.text);
-                score_drawing.changePage(parseInt(label_page_current.text));
-                score_drawing.update();
+                if(parseInt(label_page_current.text) < score_drawing.getMaxpage()){
+                    label_page_current.text = 1 + parseInt(label_page_current.text);
+                    label_page_max.text = ''+score_drawing.getMaxpage();
+                    score_drawing.changePage(parseInt(label_page_current.text));
+                    score_drawing.update();
+                }
+            }
+        }
+
+        Button {
+            id: button_prevmax
+            x:30; y:530
+            width: 40
+            text: "-"
+            onClicked: {
+                if(score_drawing.getMaxpage() > 1){
+                    score_drawing.setMaxpage(score_drawing.getMaxpage() - 1);
+                    label_page_max.text = ''+score_drawing.getMaxpage();
+                }
+            }
+        }
+        Button {
+            id: button_nextmax
+            x:170; y:530
+            width: 40
+            text: "+"
+            onClicked: {
+                score_drawing.setMaxpage(score_drawing.getMaxpage() + 1);
+                label_page_max.text = ''+score_drawing.getMaxpage();
             }
         }
     }

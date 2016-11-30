@@ -26,6 +26,8 @@ public:
 	Q_INVOKABLE void setMouse(const qreal x, const qreal y);
 	Q_INVOKABLE void changePage(const int page);
 
+	Q_INVOKABLE int getMaxpage();
+	Q_INVOKABLE void setMaxpage(const int page);
 	Q_INVOKABLE QString getFilename();
 	Q_INVOKABLE bool setFilename(const QString& name);
 	Q_INVOKABLE bool setDenom(const int denom);
@@ -49,6 +51,7 @@ public:
 private:
 	md::Score scoredata;
 	uint16_t currentpage;
+	uint16_t maxpage;
 	std::string filename;
 	
 	const int16_t m_width, m_height;
