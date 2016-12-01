@@ -183,63 +183,75 @@ ApplicationWindow{
 
         ExclusiveGroup { id: notesGroup }
         RadioButton {
-            x: 80; y: 230
+            x: 80; y: 235
             text: "Single"
             checked: true
             exclusiveGroup: notesGroup
             onClicked: { currentnote = 0; score_drawing.setType(currentnote); }
         }
         RadioButton {
-            x: 80; y: 260
+            x: 80; y: 265
             text: "Long Start"
             exclusiveGroup: notesGroup
             onClicked: { currentnote = 1; score_drawing.setType(currentnote); }
         }
         RadioButton {
-            x: 80; y: 290
+            x: 80; y: 295
             text: "Long End"
             exclusiveGroup: notesGroup
             onClicked: { currentnote = 2; score_drawing.setType(currentnote); }
         }
         RadioButton {
-            x: 80; y: 320
+            x: 80; y: 325
             text: "LeftFlick Continue"
             exclusiveGroup: notesGroup
             onClicked: { currentnote = 5; score_drawing.setType(currentnote); }
         }
         RadioButton {
-            x: 80; y: 350
+            x: 80; y: 355
             text: "LeftFlick End"
             exclusiveGroup: notesGroup
             onClicked: { currentnote = 6; score_drawing.setType(currentnote); }
         }
         RadioButton {
-            x: 80; y: 380
+            x: 80; y: 385
             text: "RightFlick Continue"
             exclusiveGroup: notesGroup
             onClicked: { currentnote = 3; score_drawing.setType(currentnote); }
         }
         RadioButton {
-            x: 80; y: 410
+            x: 80; y: 415
             text: "RightFlick End"
             exclusiveGroup: notesGroup
             onClicked: { currentnote = 4; score_drawing.setType(currentnote); }
         }
         Image {
-            x: 30; y: 230
+            x: 40; y: 230
             source: "img/note1.png"
         }
         Image {
-            x: 30; y: 260
+            x: 40; y: 260
             source: "img/note2.png"
         }
         Image {
-            x: 30; y: 320
+            x: 40; y: 290
             source: "img/note3.png"
         }
         Image {
-            x: 30; y: 380
+            x: 40; y: 320
             source: "img/note4.png"
+        }
+        Image {
+            x: 40; y: 350
+            source: "img/note5.png"
+        }
+        Image {
+            x: 40; y: 380
+            source: "img/note6.png"
+        }
+        Image {
+            x: 40; y: 410
+            source: "img/note7.png"
         }
 
         Button {

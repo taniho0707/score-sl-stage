@@ -39,16 +39,22 @@ bool ScoreDrawing::setType(const int type){
 		mouse_image.load("./img/note1_gray.png");
 		break;
 	case Notetype::LONG_START:
-	case Notetype::LONG_END:
 		mouse_image.load("./img/note2_gray.png");
 		break;
-	case Notetype::SLIDELEFT_CONT:
-	case Notetype::SLIDELEFT_END:
+	case Notetype::LONG_END:
 		mouse_image.load("./img/note3_gray.png");
 		break;
-	case Notetype::SLIDERIGHT_CONT:
-	case Notetype::SLIDERIGHT_END:
+	case Notetype::SLIDELEFT_CONT:
 		mouse_image.load("./img/note4_gray.png");
+		break;
+	case Notetype::SLIDELEFT_END:
+		mouse_image.load("./img/note5_gray.png");
+		break;
+	case Notetype::SLIDERIGHT_CONT:
+		mouse_image.load("./img/note6_gray.png");
+		break;
+	case Notetype::SLIDERIGHT_END:
+		mouse_image.load("./img/note7_gray.png");
 		break;
 	}
 }
@@ -190,22 +196,28 @@ void ScoreDrawing::drawAllIcon(QPainter *painter){
 			(m_height - (m_height*4/5)*it->second.numerator/static_cast<uint16_t>(it->second.denominator) - (m_height/10)) - 14,
 			28, 28);
 		QRect source(0, 0, 28, 28);
-		QImage image("./img/note1_gray.png");
+		QImage image;
 		switch(it->second.type){
 		case Notetype::SINGLE:
 			image.load("./img/note1.png");
 			break;
 		case Notetype::LONG_START:
-		case Notetype::LONG_END:
 			image.load("./img/note2.png");
 			break;
-		case Notetype::SLIDELEFT_CONT:
-		case Notetype::SLIDELEFT_END:
+		case Notetype::LONG_END:
 			image.load("./img/note3.png");
 			break;
-		case Notetype::SLIDERIGHT_CONT:
-		case Notetype::SLIDERIGHT_END:
+		case Notetype::SLIDELEFT_CONT:
 			image.load("./img/note4.png");
+			break;
+		case Notetype::SLIDELEFT_END:
+			image.load("./img/note5.png");
+			break;
+		case Notetype::SLIDERIGHT_CONT:
+			image.load("./img/note6.png");
+			break;
+		case Notetype::SLIDERIGHT_END:
+			image.load("./img/note7.png");
 			break;
 		}
 		painter->drawImage(target, image, source);
