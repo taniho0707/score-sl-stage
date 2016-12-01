@@ -185,12 +185,21 @@ void ScoreDrawing::drawIcon(uint32_t x, uint32_t y, Notetype t, QPainter *painte
 }
 
 void ScoreDrawing::drawAllIcon(QPainter *painter){
-	struct Notedata zero = {Denom::FOUR, 0, currentpage, Notetype::SINGLE, Noteline::MIDDLE};
+	struct Notedata zero = {Denom::FOUR, 0, currentpage, Notetype::SINGLE, Noteline::MIDDLE, Notehand::LEFT};
 	using iterator = multimap<uint32_t, struct Notedata>::iterator;
 	iterator it = scoredata.notes.lower_bound(zero.getNumber()-1);
 	zero.measure = currentpage+1;
 	iterator top = scoredata.notes.upper_bound(zero.getNumber()-1);
 	for(iterator cnote = it; it != top; ++it) {
+		QRect targethand(
+			(static_cast<int16_t>(it->second.line)+1)*(m_width/6) - 14 - 2,
+			(m_height - (m_height*4/5)*it->second.numerator/static_cast<uint16_t>(it->second.denominator) - (m_height/10)) - 14,
+			32, 28);
+		QRect sourcehand(0, 0, 32, 28);
+		QImage imagehand;
+		if(it->second.hand == Notehand::LEFT) imagehand.load("./img/lefthand.png");
+		else imagehand.load("./img/righthand.png");
+		painter->drawImage(targethand, imagehand, sourcehand);
 		QRect target(
 			(static_cast<int16_t>(it->second.line)+1)*(m_width/6) - 14,
 			(m_height - (m_height*4/5)*it->second.numerator/static_cast<uint16_t>(it->second.denominator) - (m_height/10)) - 14,
@@ -256,7 +265,7 @@ Notedata ScoreDrawing::getMousey2Line(uint32_t y, md::Denom denom){
 	int16_t tmp = floor((newy + max/(2*static_cast<uint16_t>(denom))) * static_cast<uint16_t>(denom) / max);
 	if(tmp >= static_cast<int16_t>(denom)) tmp = static_cast<int16_t>(denom)-1;
 	if(tmp < 0) tmp = 0;
-	return (struct Notedata){denom, tmp, 0, Notetype::SINGLE, Noteline::MIDDLE};
+	return (struct Notedata){denom, tmp, 0, Notetype::SINGLE, Noteline::MIDDLE, Notehand::LEFT};
 }
 
 

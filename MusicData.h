@@ -50,7 +50,9 @@ namespace md{
 	   4. ノーツタイプ
 	      Notetype
 	   5. ノーツライン
-	      3bit
+	      Noteline
+	   6. ノーツハンド
+	      打鍵する腕
 	*/
 	struct Notedata {
 		Denom denominator;
@@ -58,6 +60,7 @@ namespace md{
 		uint16_t measure;
 		Notetype type;
 		Noteline line;
+		Notehand hand;
 
 		uint32_t getNumber(){
 			return 64*measure + (64/static_cast<uint16_t>(denominator)*numerator);
