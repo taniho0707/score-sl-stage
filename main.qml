@@ -176,7 +176,7 @@ ApplicationWindow{
             width: 60
             text: "Right"
             onClicked: {
-                currenthand = 0;
+                currenthand = 1;
                 label_hand_current.text="Right";
             }
         }

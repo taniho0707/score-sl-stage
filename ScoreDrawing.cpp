@@ -107,12 +107,15 @@ bool ScoreDrawing::setNote(const int type, const int hand){
 	note.line = getMousex2Line(m_mousex);
 	note.type = static_cast<Notetype>(type);
 	note.measure = currentpage;
+	note.hand = static_cast<Notehand>(hand);
 
 	using iterator = multimap<uint32_t, struct Notedata>::iterator;
 	std::pair<iterator, iterator> ret = scoredata.notes.equal_range(note.getNumber());
 	for(iterator it = ret.first; it != ret.second; ++it) {
 		if(it->second.line == note.line){
-			cout << "Already exists" << endl;
+			it->second.hand = static_cast<Notehand>(hand);
+			cout << "Already exists, set hand to " << (it->second.hand==Notehand::LEFT ? "Left" : "Right")
+				 << endl;
 			return false;
 		}
 	}
