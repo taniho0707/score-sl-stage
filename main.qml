@@ -225,6 +225,18 @@ ApplicationWindow{
             exclusiveGroup: notesGroup
             onClicked: { currentnote = 4; score_drawing.setType(currentnote); }
         }
+        RadioButton {
+            x: 80; y: 445
+            text: "Slide Continue"
+            exclusiveGroup: notesGroup
+            onClicked: { currentnote = 7; score_drawing.setType(currentnote); }
+        }
+        RadioButton {
+            x: 80; y: 475
+            text: "Slide End"
+            exclusiveGroup: notesGroup
+            onClicked: { currentnote = 8; score_drawing.setType(currentnote); }
+        }
         Image {
             x: 40; y: 230
             source: "img/note1.png"
@@ -253,10 +265,18 @@ ApplicationWindow{
             x: 40; y: 410
             source: "img/note7.png"
         }
+        Image {
+            x: 40; y: 440
+            source: "img/note8.png"
+        }
+        Image {
+            x: 40; y: 470
+            source: "img/note9.png"
+        }
 
         Button {
             id: button_prevpage
-            x:30; y:500
+            x:30; y:560
             width: 40
             text: "-"
             onClicked: {
@@ -269,26 +289,26 @@ ApplicationWindow{
             }
         }
         Label {
-            x: 80; y: 500
+            x: 80; y: 560
             id: label_page_current
             font.pixelSize: 18
             text: qsTr("1")
         }
         Label {
-            x: 110; y: 500
+            x: 110; y: 560
             id: label_page_slash
             font.pixelSize: 18
             text: qsTr("/")
         }
         Label {
-            x: 120; y: 500
+            x: 120; y: 560
             id: label_page_max
             font.pixelSize: 18
             text: qsTr("30")
         }
         Button {
             id: button_nextpage
-            x:170; y:500
+            x:170; y:560
             width: 40
             text: "+"
             onClicked: {
@@ -303,7 +323,7 @@ ApplicationWindow{
 
         Button {
             id: button_prevmax
-            x:30; y:530
+            x:30; y:590
             width: 40
             text: "-"
             onClicked: {
@@ -315,7 +335,7 @@ ApplicationWindow{
         }
         Button {
             id: button_nextmax
-            x:170; y:530
+            x:170; y:590
             width: 40
             text: "+"
             onClicked: {

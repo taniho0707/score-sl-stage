@@ -56,6 +56,12 @@ bool ScoreDrawing::setType(const int type){
 	case Notetype::SLIDERIGHT_END:
 		mouse_image.load("./img/note7_gray.png");
 		break;
+	case Notetype::SLIDEPLUS_CONT:
+		mouse_image.load("./img/note8_gray.png");
+		break;
+	case Notetype::SLIDEPLUS_END:
+		mouse_image.load("./img/note9_gray.png");
+		break;
 	}
 }
 
@@ -230,6 +236,12 @@ void ScoreDrawing::drawAllIcon(QPainter *painter){
 			break;
 		case Notetype::SLIDERIGHT_END:
 			image.load("./img/note7.png");
+			break;
+		case Notetype::SLIDEPLUS_CONT:
+			image.load("./img/note8.png");
+			break;
+		case Notetype::SLIDEPLUS_END:
+			image.load("./img/note9.png");
 			break;
 		}
 		painter->drawImage(target, image, source);
