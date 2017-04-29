@@ -6,3 +6,4 @@ score-sl-stage
 moc_*
 .qmake.stash
 score/*
+main.qmlc
